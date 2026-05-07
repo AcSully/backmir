@@ -1,0 +1,221 @@
+// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+//   BMClient/BackMir/BMPreConnWnd.cpp
+//   BMClient/BackMir/BMSelServerWnd.cpp
+//   BMClient/BackMir/HandleLoginMsg.cpp
+//   BMClient/LoginScene/SelChrDlg.cpp
+//   BMClient/LoginScene/NewHumDlg.cpp
+//   BMClient/LoginScene/DeleteConfirmDlg.cpp
+//   BMServer/CMainServer/CMainServer.cpp
+//   BMServer/GameWorld/GameScene.cpp
+//   BMServer/GameWorld/HeroObject.cpp
+//
+// Tag 编号从 1 起重新分配，与历史已部署服务器不二进制兼容。
+// 本仓库重建后的客户端必须连本仓库重建后的服务器。
+
+syntax = "proto2";
+
+package protocol;
+
+// ---------------------------------------------------------------------------
+// Opcode enum
+// LSOp_MIN / LSOp_MAX 用于判断是否为 protobuf 消息（见 BMPreConnWnd.cpp:560）
+// ---------------------------------------------------------------------------
+enum LSOp {
+    LSOp_RANGE_MIN        = 1000;   // 范围下界（代码中用 LSOp_MIN 宏访问）
+
+    LSAccessNtf           = 1001;   // LS -> Client: 连接建立，下发 lid + accessToken
+    VerifyAccountReq      = 1002;   // Client -> LS: 账号密码验证请求
+    VerifyAccountRsp      = 1003;   // LS -> Client: 验证结果
+    QuickMessageNtf       = 1004;   // LS -> Client/GS: 快速消息通知
+    ServerListNtf         = 1005;   // LS -> Client: 服务器列表
+    PlayerHumBaseDataNtf  = 1006;   // LS -> Client: 角色头像数据
+    RegisterClientReq     = 1007;   // Client -> GS: 注册客户端（携带 accessToken）
+    CreateHumReq          = 1008;   // Client -> LS: 创建角色请求
+    CreateHumRsp          = 1009;   // LS -> Client: 创建角色结果
+    DelHumReq             = 1010;   // Client -> LS: 删除角色请求
+    DelHumRsp             = 1011;   // LS -> Client: 删除角色结果
+    LoginGameReq          = 1012;   // Client -> LS: 进入游戏请求
+
+    // GS <-> LS 内部消息
+    UserInternalVerifyReq = 1013;   // GS -> LS: 内部验证请求
+    ProtoTypeNtf          = 1014;   // LS -> GS: 协议类型通知（握手）
+    RegisterServerReq     = 1015;   // GS -> LS: 注册服务器
+    PlayerLoginHumDataNtf = 1016;   // LS -> GS: 玩家登录角色数据
+    SavePlayerDataReq     = 1017;   // GS -> LS: 保存玩家数据
+    SavePlayerExtDataReq  = 1018;   // GS -> LS: 保存玩家扩展数据
+    PlayerDisconnectedNtf = 1019;   // GS -> LS: 玩家断线通知
+    UpdatePlayerRankReq   = 1020;   // GS -> LS: 更新玩家排行
+    SyncPlayerRankNtf     = 1021;   // LS -> GS: 同步排行榜数据
+
+    LSOp_RANGE_MAX        = 1999;   // 范围上界（代码中用 LSOp_MAX 宏访问）
+}
+
+// ---------------------------------------------------------------------------
+// Client <-> LS 消息
+// ---------------------------------------------------------------------------
+
+// LS -> Client: 连接建立通知，下发登录凭证
+message MLSAccessNtf {
+    required int32  lid         = 1;    // login server 分配的连接 ID
+    required string accesstoken = 2;    // 访问令牌，后续传给 GS 用于验证
+}
+
+// Client -> LS: 账号密码验证
+message MVerifyAccountReq {
+    required string account  = 1;
+    required string password = 2;
+}
+
+// LS -> Client: 验证结果（目前客户端收到后无额外处理，仅解析）
+message MVerifyAccountRsp {
+    required int32 result = 1;  // 0=失败, 1=成功
+}
+
+// LS -> Client/GS: 快速消息通知
+// msgid 含义（见 BMPreConnWnd.cpp）：
+//   7  = 没有可用的游戏服务器
+//   8  = 用户名或密码错误
+//   10 = 当前服务器已登录，无法重复登录（param=serverid）
+message MQuickMessageNtf {
+    required int32 msgid = 1;
+    optional int32 param = 2 [default = 0];
+}
+
+// LS -> Client: 服务器列表中的单个服务器条目
+message MServerListItem {
+    required int32  serverid      = 1;
+    required string serveraddress = 2;  // "ip:port"
+    required string servername    = 3;
+}
+
+// LS -> Client: 服务器列表通知
+message MServerListNtf {
+    repeated MServerListItem servers = 1;
+}
+
+// 单个角色的基础数据（roledata 是二进制序列化的角色头像信息）
+message MPlayerHumBaseData {
+    required int32  roleindex = 1;  // 角色槽位 0~2
+    required bytes  roledata  = 2;  // 原始二进制：namelen(1) + name + sex(1) + job(1) + level(2)
+}
+
+// LS -> Client: 角色头像数据通知
+message MPlayerHumBaseDataNtf {
+    repeated MPlayerHumBaseData roles = 1;
+}
+
+// Client -> LS: 创建角色请求
+message MCreateHumReq {
+    required string name = 1;
+    required int32  job  = 2;
+    required int32  sex  = 3;
+}
+
+// LS -> Client: 创建角色结果
+message MCreateHumRsp {
+    required int32  result = 1;  // 0=失败, 非0=成功
+    required string name   = 2;
+    required int32  job    = 3;
+    required int32  sex    = 4;
+}
+
+// Client -> LS: 删除角色请求
+message MDelHumReq {
+    required string name = 1;
+}
+
+// LS -> Client: 删除角色结果
+message MDelHumRsp {
+    required string name = 1;
+}
+
+// Client -> LS: 进入游戏请求
+message MLoginGameReq {
+    required string name       = 1;
+    optional string servername = 2 [default = ""];
+}
+
+// ---------------------------------------------------------------------------
+// Client -> GS 消息
+// ---------------------------------------------------------------------------
+
+// Client -> GS: 注册客户端（携带 LS 分配的凭证，GS 转发给 LS 验证）
+message MRegisterClientReq {
+    required int32  sid         = 1;  // GS 侧连接 ID（dwConnIdx）
+    required int32  lid         = 2;  // LS 侧连接 ID
+    required string accesstoken = 3;
+}
+
+// ---------------------------------------------------------------------------
+// GS <-> LS 内部消息
+// ---------------------------------------------------------------------------
+
+// GS -> LS: 内部验证请求（由 GS 在收到 MRegisterClientReq 后转发）
+message MUserInternalVerifyReq {
+    required int32  lid         = 1;  // LS 侧连接 ID
+    required int32  gid         = 2;  // GS 侧连接 ID
+    required string accesstoken = 3;
+    required int32  conncode    = 4;  // GS 侧连接码，用于防重放
+}
+
+// GS -> LS: 注册服务器（握手时发送）
+message MRegisterServerReq {
+    required string servername     = 1;
+    required string exposeaddress  = 2;  // "ip:port"
+    required int32  serverid       = 3;
+}
+
+// LS -> GS: 玩家登录角色数据通知
+message MPlayerLoginHumDataNtf {
+    required int32  gid      = 1;   // GS 侧连接 ID
+    required int32  lid      = 2;   // LS 侧连接 ID
+    required int32  uid      = 3;   // 用户 UID
+    required int32  connid   = 4;   // 连接码（用于校验）
+    required string name     = 5;
+    required int32  job      = 6;
+    required int32  sex      = 7;
+    required int32  level    = 8;
+    optional bytes  data     = 9;   // 角色二进制存档
+    optional string jsondata = 10 [default = ""];  // 扩展 JSON 数据
+}
+
+// GS -> LS: 保存玩家主数据
+message MSavePlayerDataReq {
+    required int32  lid      = 1;
+    required int32  uid      = 2;
+    required string name     = 3;
+    required int32  level    = 4;
+    required int32  serverid = 5;
+    required bytes  data     = 6;
+}
+
+// GS -> LS: 保存玩家扩展数据
+message MSavePlayerExtDataReq {
+    required int32  lid      = 1;
+    required int32  uid      = 2;
+    required string name     = 3;
+    required int32  extindex = 4;
+    required int32  serverid = 5;
+    required bytes  data     = 6;
+}
+
+// GS -> LS: 玩家断线通知
+message MPlayerDisconnectedNtf {
+    required int32 lid = 1;
+    required int32 uid = 2;
+}
+
+// GS -> LS: 更新玩家排行榜
+message MUpdatePlayerRankReq {
+    required int32  uid      = 1;
+    required int32  job      = 2;
+    required int32  level    = 3;
+    required string name     = 4;
+    required int32  serverid = 5;
+    required int32  power    = 6;
+}
+
+// LS -> GS: 同步排行榜数据
+message MSyncPlayerRankNtf {
+    required string data = 1;  // JSON 序列化的排行榜数据
+}
