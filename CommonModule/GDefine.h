@@ -70,14 +70,14 @@ enum OBJECT_STATE
 #define ACTION_SHOW     OS_SHOW
 #define ACTION_STOP     OS_STOP
 #define ACTION_GROUND   OS_GROUND
-#define ACTION_TURN     OS_TURN
+#define ACTION_TURN     0x0102
 #define ACTION_EXT1     0x0104
 #define ACTION_EXT2     0x0105
 #define ACTION_EXT3     0x0106
 #define ACTION_EXT4     0x0107
 #define ACTION_CREATE   0x0108
 #define ACTION_STATUS   0x0109
-#define ACTION_FLY      0x010A
+#define ACTION_FLY      0x0103
 
 // Struck mask flags
 #define STRUCK_MASK_WEAPON   0x01
@@ -95,6 +95,16 @@ enum DifficultyLevel
     kDifficultyEasy   = 1,
     kDifficultyNovice = 2,
     kDifficultyTotal,
+};
+#define kDifficultyDefault kDifficultyNormal
+
+// Material type constants
+enum MaterialType
+{
+    kMaterial_Ore   = 0,
+    kMaterial_Wood  = 1,
+    kMaterial_Gem   = 2,
+    kMaterial_Cloth = 3,
 };
 
 // item level upgrade quality index (high byte of stored level)
@@ -125,22 +135,29 @@ enum HeroPkType
 };
 
 // Update types (for status update packets)
-#define UPDATE_HP        0
-#define UPDATE_MP        1
-#define UPDATE_MONEY     2
-#define UPDATE_MAGIC     3
-#define UPDATE_MASTER    4
-#define UPDATE_SLAVELV   5
-#define UPDATE_MOVESPD   6
+#define UPDATE_HP        4
+#define UPDATE_MP        5
+#define UPDATE_MONEY     3
+#define UPDATE_MAGIC     9
+#define UPDATE_MASTER    1
+#define UPDATE_SLAVELV   2
+#define UPDATE_MOVESPD   20
 
 // Sound types
 #define PLAYSOUND_OBJECTSOUND 1
 
 // Shop types
-#define SHOP_DONATE      1
-#define SHOP_IDENTIFY    2
-#define SHOP_IDENTIFY_LOW 3
-#define SHOP_UNBIND      4
+#define SHOP_DONATE      7
+#define SHOP_IDENTIFY    4
+#define SHOP_IDENTIFY_LOW 5
+#define SHOP_UNBIND      6
+#define SHOP_BIGSTORAGE  2
+
+// Item use result codes
+#define USE_DRUG         1
+
+// Expression masks
+#define EXPR_MASK_NOSAVE 0x80000000
 
 // Monster type IDs
 #define MONSTER_KULOU           1

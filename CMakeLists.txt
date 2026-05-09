@@ -86,8 +86,18 @@ endif()
 # zlib
 find_package(ZLIB REQUIRED)
 
-# Protobuf
-find_package(Protobuf REQUIRED)
+# Protobuf — prefer /opt/protobuf-3.5.1 if present, fall back to system
+if(EXISTS "/opt/protobuf-3.5.1")
+    set(PROTOBUF_ROOT "/opt/protobuf-3.5.1")
+    set(Protobuf_INCLUDE_DIR "${PROTOBUF_ROOT}/include")
+    set(Protobuf_LIBRARY     "${PROTOBUF_ROOT}/lib/libprotobuf.a")
+    set(Protobuf_PROTOC_EXECUTABLE "${PROTOBUF_ROOT}/bin/protoc")
+    set(PROTOBUF_INCLUDE_DIRS "${Protobuf_INCLUDE_DIR}")
+    set(PROTOBUF_LIBRARIES    "${Protobuf_LIBRARY}")
+    find_package(Protobuf REQUIRED HINTS "${PROTOBUF_ROOT}/lib/cmake/protobuf")
+else()
+    find_package(Protobuf REQUIRED)
+endif()
 
 # libcurl
 find_package(CURL REQUIRED)

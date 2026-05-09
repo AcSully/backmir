@@ -111,6 +111,7 @@ typedef PlayerItemType PLAYER_ITEM_TYPE;
 // ---------------------------------------------------------------------------
 // 物品类型
 // ---------------------------------------------------------------------------
+#ifndef ITEM_WEAPON  // skip if already defined as macros (e.g. from DBThread.h)
 enum ItemType
 {
     ITEM_NO       = 0,   // 空槽
@@ -132,7 +133,33 @@ enum ItemType
     ITEM_BOOK     = 16,  // 技能书
     ITEM_OTHER    = 17,  // 其它
 };
-
+#else
+// When item type macros are already defined (DBThread.h), provide the missing ones
+#ifndef ITEM_NO
+#define ITEM_NO       0
+#endif
+#ifndef ITEM_COST
+#define ITEM_COST     11
+#endif
+#ifndef ITEM_EQUIP
+#define ITEM_EQUIP    12
+#endif
+#ifndef ITEM_QUEST
+#define ITEM_QUEST    13
+#endif
+#ifndef ITEM_BALE
+#define ITEM_BALE     14
+#endif
+#ifndef ITEM_MEDAL
+#define ITEM_MEDAL    15
+#endif
+#ifndef ITEM_BOOK
+#define ITEM_BOOK     16
+#endif
+#ifndef ITEM_OTHER
+#define ITEM_OTHER    17
+#endif
+#endif
 // Get item type description name
 inline const char* GetItemDescribeName(const ItemAttrib* pItem)
 {
