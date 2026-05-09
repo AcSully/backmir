@@ -1,6 +1,6 @@
 # BackMIR
 
-BackMIR 是一款仿热血传奇风格的 2D MMORPG，包含完整的客户端与服务端源码。本仓库是作者早年工作时的代码，以开源存档形式发布。
+BackMIR 是一款仿热血传奇风格的 2D MMORPG，包含完整的客户端与服务端源码。本仓库是参考https://github.com/sryanyuan，以开源存档形式发布。
 
 ## 仓库结构
 
@@ -170,4 +170,4 @@ git clone --recurse-submodules https://github.com/AcSully/backmir.git
 
 ## 许可
 
-本仓库以开源存档形式发布，代码质量参差不齐（作者自注：刚毕业时写的，现在看起来惨不忍睹）。欢迎提 Issue 或 PR。
+本仓库以开源存档形式发布，代码质量参差不齐（https://github.com/sryanyuan自注：刚毕业时写的，现在看起来惨不忍睹）。欢迎提 Issue 或 PR。
