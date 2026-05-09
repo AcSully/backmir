@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/GameDbBuffer.cpp:35 (LoadItemAttrib)
 //   BMServer/GameWorld/GameDbBuffer.cpp:66 (LoadMonsAttrib)
 //   BMServer/GameWorld/GameDbBuffer.cpp:88 (LoadSuitAttrib)

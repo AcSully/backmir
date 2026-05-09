@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 #include "platform_compat.h"
 #include "CollDownController.h"
 
@@ -45,4 +45,16 @@ void CoolDownController::Update()
 void CoolDownController::Clear()
 {
     m_xItems.clear();
+}
+
+int CoolDownController::GetCoolPercent(int _nID) const
+{
+    unsigned int now = GetTickCount();
+    auto it = m_xItems.find(_nID);
+    if (it == m_xItems.end())
+        return 100;
+    unsigned int elapsed = now - it->second.dwStartTick;
+    if (elapsed >= it->second.dwDelayMS)
+        return 100;
+    return (int)(elapsed * 100 / it->second.dwDelayMS);
 }

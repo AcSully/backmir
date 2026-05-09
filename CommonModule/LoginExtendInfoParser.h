@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/CMainServer/CMainServer.cpp:1564-1645
 //   BMServer/CMainServer/CMainServer_Deprecated.cpp:37-209
 //

@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 // 与 LuaBaseEngine.cpp 配套；仅在此 TU 中实现路径相关方法，
 // 避免与 LuaBaseEngine.cpp 中已有的 DoModule/LoadFile/LoadFileInZip 重复定义。
 //

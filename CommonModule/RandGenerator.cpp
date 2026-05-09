@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 #include "RandGenerator.h"
 
 RandGenerator::RandGenerator() : m_nSeed(1), m_nPrevSeed(1) {}

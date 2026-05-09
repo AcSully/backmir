@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/HeroObject.cpp (GetGrowLevelFromDWORD, GetIncGrowDWORD)
 #pragma once
 #ifndef _INC_ITEMGROWUTILS_

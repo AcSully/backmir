@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/Net/PacketHandler.cpp (BACKMIR_VERSION)
 //   BMClient/BackMir/BackMir.cpp (BACKMIR_CURVERSION, BACKMIR_VERSION_CHNAME)
 //   BMServer/CMainServer/CMainServer.cpp (BACKMIR_VERSION208..210)

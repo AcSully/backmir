@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 vcxproj 引用，源码未直接 #include。
 //   功能职责：从 lua_State 读取全局配置变量到 C++ 数据结构。
 #pragma once

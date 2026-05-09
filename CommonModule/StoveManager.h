@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/tolua/BackMirServer.pkg:5 ($#include)
 //   BMServer/tolua/BackMirServer.pkg:30 ($pfile "StoveManager.pkg")
 //   BMServer/tolua/StoveManager.pkg (LifeSkillType enum)
@@ -13,6 +13,7 @@
 
 #include "stove_def.h"
 #include <vector>
+#include <map>
 
 // Stove attrib type IDs (used in StoveAttribInfo::dwAttribs LOWORD)
 enum StoveAttribType
@@ -32,6 +33,28 @@ enum StoveAttribType
     kStoveAttrib_AddMPSecond        = 13,
 };
 
+// Get string name for stove attribute type
+inline const char* GetStoveAttribName(StoveAttribType _eType)
+{
+    switch(_eType)
+    {
+    case kStoveAttrib_EnhanceDefence:    return "Defense";
+    case kStoveAttrib_EnhanceAttack:     return "Attack";
+    case kStoveAttrib_CriticalAttack:    return "Critical";
+    case kStoveAttrib_CriticalLimit:     return "CriticalLimit";
+    case kStoveAttrib_NormalAttackSpeed: return "AttackSpeed";
+    case kStoveAttrib_SuckHP:            return "SuckHP";
+    case kStoveAttrib_SummonWhiteTiger:  return "SummonTiger";
+    case kStoveAttrib_NearPalsy:         return "NearPalsy";
+    case kStoveAttrib_Mountain:          return "Mountain";
+    case kStoveAttrib_PoisRecover:       return "PoisRecover";
+    case kStoveAttrib_StoneRecover:      return "StoneRecover";
+    case kStoveAttrib_AddHPSecond:       return "AddHP";
+    case kStoveAttrib_AddMPSecond:       return "AddMP";
+    default:                             return "Unknown";
+    }
+}
+
 // One stove (potential) attrib record
 struct StoveAttribInfo
 {
@@ -40,6 +63,7 @@ struct StoveAttribInfo
     unsigned int dwActiveItemType;
     int          nLevel;
     int          nAttribId;
+    char         szName[32];    // display name
 };
 
 // Life-skill (crafting) types exposed to Lua
@@ -61,6 +85,7 @@ struct LifeSkillInfo
 
 struct MakeEquipInfo
 {
+    int nItemId;
     int nMaterialCount;
     int nMaterialsId[8];
     int nMaterialsCount[8];
@@ -68,6 +93,8 @@ struct MakeEquipInfo
     int nNeedLevel;
     int nExp;
 };
+
+typedef std::map<int, MakeEquipInfo> MakeEquipInfoMap;
 
 typedef std::vector<StoveAttribInfo> StoveAttribVector;
 
@@ -86,6 +113,7 @@ public:
     const StoveAttribInfo* GetStoveAttrib(int /*_nIndex*/) { return nullptr; }
     const LifeSkillInfo* GetLifeSkillInfo(LifeSkillType /*_eType*/) { return nullptr; }
     const MakeEquipInfo* GetMakeEquipInfo(int /*_nItemId*/) { return nullptr; }
+    const MakeEquipInfoMap& GetMakeEquipInfoMap() { static MakeEquipInfoMap s_map; return s_map; }
     const StoveAttribVector& GetStoveAttribVector() { static StoveAttribVector s_vec; return s_vec; }
 };
 

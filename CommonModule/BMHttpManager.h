@@ -16,12 +16,12 @@ public:
         return s_pIns;
     }
 
-    typedef std::function<void(const std::string&)> HttpCallback;
+    typedef std::function<void(const char*, size_t)> HttpCallback;
 
     // Synchronous HTTP GET (stub: does nothing, calls callback with empty string)
     void DoGetRequestSync(const std::string& /*url*/, HttpCallback cb)
     {
-        if (cb) cb("");
+        if (cb) cb("", 0);
     }
 
 private:

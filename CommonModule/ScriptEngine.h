@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/BackMir/BackMir.h (GetScriptEngine() -> LuaClientEngine*)
 //   BMServer/GameWorld/GameWorld.h (GetLuaEngine() -> LuaServerEngine*)
 //

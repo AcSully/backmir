@@ -14,6 +14,7 @@ struct SellItem
     int        nGold;
     int        nItemID;
     char       szItemName[64];
+    char       szSellerName[64];
     char       szBuyerName[64];
 };
 BYTEBUFFER_STRUCT_OPERATOR(SellItem);

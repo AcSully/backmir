@@ -21,6 +21,9 @@ public:
     // Check if _nID can be used (cooldown expired)
     bool CanUse(int _nID, unsigned int _dwDelayMS) const;
 
+    // Get cooldown progress as percentage (0-100). Returns 100 if no cooldown.
+    int GetCoolPercent(int _nID) const;
+
     // Update (remove expired cooldowns)
     void Update();
 

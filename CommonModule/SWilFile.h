@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMServer/BackMirServer13.vcxproj 引用 ..\CommonModule\SWilFile.h
 //   BMClient/Common/MirMap.h:116 中已有 class SWilFile（依赖 HBITMAP 等渲染 API），
 //   实现位于 BMClient/Common/SWilFile.cpp。

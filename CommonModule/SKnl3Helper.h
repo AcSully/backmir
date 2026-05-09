@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/BackMirServer13.vcxproj 引用 ..\CommonModule\SKnl3Helper.{cpp,h}
 //   BMClient 自有 BMClient/Common/SKnl3Helper.{cpp,h}（PE/进程权限/Token 工具，
 //   含 HANDLE/TlHelp32 等纯 Win32 API；用于客户端 anti-cheat / 反调试集成）。

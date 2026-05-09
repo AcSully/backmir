@@ -1,4 +1,4 @@
-// FastDelegateBind.h stub — bind helpers for fastdelegate
+﻿// FastDelegateBind.h stub — bind helpers for fastdelegate
 #pragma once
 #ifndef _INC_FASTDELEGATEBIND_
 #define _INC_FASTDELEGATEBIND_

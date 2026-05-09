@@ -1,4 +1,4 @@
-/*
+﻿/*
  * [vendored] Unicode, Inc. ConvertUTF — public domain
  * https://unicode.org/Public/PROGRAMS/CVTUTF/ConvertUTF.c
  */

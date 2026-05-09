@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/ObjectEngine.h (extern g_xConsole)
 //   BMServer/CMainServer/CMainServer.cpp (InitConsole, CPrint)
 //   BMServer/GameWorld/HeroObject.cpp (CPrint)

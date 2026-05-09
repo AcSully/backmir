@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/HeroObject.cpp
 //   BMServer/GameWorld/HeroObject_Packet.cpp
 //
@@ -9,6 +9,8 @@
 #pragma once
 #ifndef _INC_POTENTIALATTRIBHELPER_
 #define _INC_POTENTIALATTRIBHELPER_
+
+#define MAX_POTENTIAL_TIME 100
 
 class PotentialAttribHelper
 {
@@ -24,6 +26,15 @@ public:
     static void SetPotentialTime(unsigned int& _dwData, int _v)
     {
         _dwData = (_dwData & 0x0000FFFF) | (((unsigned int)_v & 0xFFFF) << 16);
+    }
+
+    // Validation test
+    static bool Test()
+    {
+        unsigned int dwData = 0;
+        SetPotentialIndex(dwData, 5);
+        SetPotentialTime(dwData, 100);
+        return GetPotentialIndex(dwData) == 5 && GetPotentialTime(dwData) == 100;
     }
 };
 

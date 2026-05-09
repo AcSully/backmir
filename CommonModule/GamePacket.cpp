@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 #include "GamePacket.h"
 
 // ---------------------------------------------------------------------------
@@ -1133,7 +1133,7 @@ ByteBuffer& operator<<(ByteBuffer& buf, const PkgPlayerPlayAniAck& p)
     buf << p.uTargetId << p.uUserId << p.wAniID;
     unsigned int n = (unsigned int)p.xPos.size();
     buf << n;
-    for (unsigned int i = 0; i < n; ++i) buf << p.xPos[i];
+    for (std::list<unsigned int>::const_iterator it = p.xPos.begin(); it != p.xPos.end(); ++it) buf << *it;
     return buf;
 }
 ByteBuffer& operator>>(ByteBuffer& buf, PkgPlayerPlayAniAck& p)
@@ -1141,8 +1141,8 @@ ByteBuffer& operator>>(ByteBuffer& buf, PkgPlayerPlayAniAck& p)
     ReadHeader(buf, p);
     buf >> p.uTargetId >> p.uUserId >> p.wAniID;
     unsigned int n = 0; buf >> n;
-    p.xPos.resize(n);
-    for (unsigned int i = 0; i < n; ++i) buf >> p.xPos[i];
+    p.xPos.clear();
+    for (unsigned int i = 0; i < n; ++i) { unsigned int v = 0; buf >> v; p.xPos.push_back(v); }
     return buf;
 }
 
@@ -1687,5 +1687,18 @@ ByteBuffer& operator>>(ByteBuffer& buf, PkgPlayerWorldSayReq& p)
 {
     ReadHeader(buf, p);
     buf >> p.xMsg >> p.uReserved;
+    return buf;
+}
+
+ByteBuffer& operator<<(ByteBuffer& buf, const PkgPlayerWorldSayNot& p)
+{
+    WriteHeader(buf, p);
+    buf << p.xMsg;
+    return buf;
+}
+ByteBuffer& operator>>(ByteBuffer& buf, PkgPlayerWorldSayNot& p)
+{
+    ReadHeader(buf, p);
+    buf >> p.xMsg;
     return buf;
 }

@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/Net/PacketHandler.cpp (Base64::Encode)
 //   BMServer/GameWorld/HeroObject.cpp (Base64::Encode)
 //

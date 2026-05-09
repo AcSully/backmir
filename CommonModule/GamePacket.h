@@ -1,4 +1,4 @@
-// [reconstructed] �ؽ��� 2026-05-06 ���� ��Դ���õ㣺
+﻿// [reconstructed] �ؽ��� 2026-05-06 ���� ��Դ���õ㣺
 //   BMServer/tolua/GamePacket.pkg (opcode enum, struct declarations)
 //   BMClient/Net/PacketHandler.cpp (packet dispatch)
 //   BMServer/CMainServer/CMainServer.cpp (login/server packet structs)
@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <list>
 #include "ObjectData.h"
 #include "OfflineSellSystem.h"
 
@@ -178,7 +179,9 @@ enum GamePacketCode
     PKG_GAME_OBJECT_ACTIONS_NOT,
     PKG_GAME_SYNCDATA_NOT,
     PKG_GAME_LOADED,
-    PKG_GAME_MONSTER_FIREDRAGON_ATTACK,
+    PKG_GAME_MONSTER_FIREDRAGON_ATTACK0_NOT,
+    PKG_GAME_PLAYER_SYNCQUEST_NTF,
+    PKG_GAME_PLAYER_SUIT_IGNORE_NOT,
     PKG_GAME_END,
 
     GAME_PKG_END,
@@ -242,6 +245,7 @@ struct PacketHeader
 {
     unsigned int uLen;  // ���ܳ��ȣ���������
     unsigned int uOp;   // opcode����������ͨ��ʱ��16λΪУ��ͣ�
+    unsigned int uTargetId;  // target object ID (used by some packets)
 };
 
 typedef PacketHeader LoginHeader;
@@ -467,6 +471,7 @@ struct PkgForceActionAck : public PacketHeader
 {
     int nAction;
     int nParam;
+    int nType;
 };
 DECLARE_READWRITE(PkgForceActionAck);
 
@@ -483,6 +488,7 @@ struct PkgNewPlayerNot : public PacketHeader
     WORD         uLevel;
     DWORD        dwLook1;
     DWORD        dwLook2;
+    DWORD        dwSpeLook1;
     bool                    bNew;
     UserData                stData;
     std::vector<int>        xSkillInfo;
@@ -512,6 +518,7 @@ DECLARE_READWRITE(PkgNewNPCNot);
 struct PkgDelNPCNot : public PacketHeader
 {
     unsigned int dwID;
+    unsigned int uTargetId;
 };
 DECLARE_READWRITE(PkgDelNPCNot);
 
@@ -563,6 +570,7 @@ DECLARE_READWRITE(PkgSystemNotifyReq);
 struct PkgSystemClientVersionErrNtf : public PacketHeader
 {
     int nVersion;
+    std::string xServerVersion;
 };
 DECLARE_READWRITE(PkgSystemClientVersionErrNtf);
 
@@ -607,6 +615,7 @@ DECLARE_READWRITE(PkgSystemExtUserDataAck);
 // Client -> GS: �û���������
 struct PkgUserActionReq : public PacketHeader
 {
+    unsigned int uUserId;
     BYTE         bAction;
     BYTE         uAction;    // alias
     WORD         wPosX;
@@ -682,6 +691,40 @@ struct PkgObjectActionTurnNot : public PacketHeader
 };
 DECLARE_READWRITE(PkgObjectActionTurnNot);
 
+struct PkgObjectActionAttackNot : public PacketHeader
+{
+    unsigned int uTargetId;
+    unsigned int uUserId;
+    WORD         wPosX;
+    WORD         wPosY;
+    BYTE         bDir;
+};
+DECLARE_READWRITE(PkgObjectActionAttackNot);
+BYTEBUFFER_STRUCT_OPERATOR(PkgObjectActionAttackNot);
+
+struct PkgObjectActionDeadNot : public PacketHeader
+{
+    unsigned int uTargetId;
+    unsigned int uUserId;
+    WORD         wPosX;
+    WORD         wPosY;
+    BYTE         bDir;
+};
+DECLARE_READWRITE(PkgObjectActionDeadNot);
+BYTEBUFFER_STRUCT_OPERATOR(PkgObjectActionDeadNot);
+
+struct PkgObjectActionExtNot : public PacketHeader
+{
+    unsigned int uTargetId;
+    unsigned int uUserId;
+    WORD         wPosX;
+    WORD         wPosY;
+    BYTE         bDir;
+    char         cExtAction;
+};
+DECLARE_READWRITE(PkgObjectActionExtNot);
+BYTEBUFFER_STRUCT_OPERATOR(PkgObjectActionExtNot);
+
 // GS -> Client: �ۺ϶�������ѹ����� vecActions �ֽ�����
 struct PkgGameObjectActionsNot : public PacketHeader
 {
@@ -691,47 +734,47 @@ struct PkgGameObjectActionsNot : public PacketHeader
 DECLARE_READWRITE(PkgGameObjectActionsNot);
 // ---------------------------------------------------------------------------
 
-struct PkgServerStatusReq : public PacketHeader {};
+struct PkgServerStatusReq : public PacketHeader { unsigned int uSign; };
 DECLARE_READWRITE(PkgServerStatusReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgServerStatusReq);
 // Stub packet types �� fields reconstructed from call sites in HeroObject_Packet.cpp
 // ---------------------------------------------------------------------------
-struct PkgGameLoadedAck          : public PacketHeader {};
+struct PkgGameLoadedAck          : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgGameLoadedAck);
 BYTEBUFFER_STRUCT_OPERATOR(PkgGameLoadedAck);
 struct PkgPlayerAttackReq        : public PacketHeader { unsigned int uTargetId; BYTE bMagicID; };
 DECLARE_READWRITE(PkgPlayerAttackReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerAttackReq);
-struct PkgPlayerBuyOlShopItemReq : public PacketHeader { int nItemId; int nQueryID; };
+struct PkgPlayerBuyOlShopItemReq : public PacketHeader { unsigned int uUserId; int nItemId; int nQueryID; int cCount; };
 DECLARE_READWRITE(PkgPlayerBuyOlShopItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerBuyOlShopItemReq);
-struct PkgPlayerCallSlaveReq     : public PacketHeader { int nSlaveType; };
+struct PkgPlayerCallSlaveReq     : public PacketHeader { unsigned int uUserId; int nSlaveType; };
 DECLARE_READWRITE(PkgPlayerCallSlaveReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerCallSlaveReq);
 struct PkgPlayerChangeEquipReq   : public PacketHeader { ItemAttrib stItem; };
 DECLARE_READWRITE(PkgPlayerChangeEquipReq);
-struct PkgPlayerChargeReq        : public PacketHeader { std::string xOrderId; };
+struct PkgPlayerChargeReq        : public PacketHeader { unsigned int uUserId; std::string xOrderId; };
 DECLARE_READWRITE(PkgPlayerChargeReq);
 struct PkgPlayerClickNPCReq      : public PacketHeader { unsigned int uNPCId; unsigned int uTargetId; unsigned int uUserId; unsigned int dwButtonID; };
 DECLARE_READWRITE(PkgPlayerClickNPCReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerClickNPCReq);
-struct PkgPlayerCubeItemsReq     : public PacketHeader { std::vector<int> xTags; };
+struct PkgPlayerCubeItemsReq     : public PacketHeader { unsigned int uUserId; std::vector<int> xTags; };
 DECLARE_READWRITE(PkgPlayerCubeItemsReq);
-struct PkgPlayerDecomposeReq     : public PacketHeader { unsigned int dwItemTag; };
+struct PkgPlayerDecomposeReq     : public PacketHeader { unsigned int uUserId; unsigned int dwItemTag; };
 DECLARE_READWRITE(PkgPlayerDecomposeReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerDecomposeReq);
 struct PkgPlayerDifficultyLevelReq : public PacketHeader { char cLevel; };
 DECLARE_READWRITE(PkgPlayerDifficultyLevelReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerDifficultyLevelReq);
-struct PkgPlayerDressItemReq     : public PacketHeader { unsigned char bPos; unsigned int dwTag; };
+struct PkgPlayerDressItemReq     : public PacketHeader { unsigned int uUserId; unsigned char bPos; unsigned int dwTag; };
 DECLARE_READWRITE(PkgPlayerDressItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerDressItemReq);
-struct PkgPlayerDropItemReq      : public PacketHeader { unsigned int dwId; int nCount; };
+struct PkgPlayerDropItemReq      : public PacketHeader { unsigned int uUserId; unsigned int dwId; int nCount; };
 DECLARE_READWRITE(PkgPlayerDropItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerDropItemReq);
-struct PkgPlayerForgeItemReq     : public PacketHeader { std::vector<int> xItems; };
+struct PkgPlayerForgeItemReq     : public PacketHeader { unsigned int uUserId; std::vector<int> xItems; };
 DECLARE_READWRITE(PkgPlayerForgeItemReq);
-struct PkgPlayerGetOlShopListReq : public PacketHeader {};
+struct PkgPlayerGetOlShopListReq : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgPlayerGetOlShopListReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerGetOlShopListReq);
 struct PkgPlayerGStatusNtf       : public PacketHeader {
@@ -740,7 +783,7 @@ struct PkgPlayerGStatusNtf       : public PacketHeader {
     std::vector<int> xStatus;
     std::vector<unsigned int> xTimes;
 };
-struct PkgPlayerHandMakeItemReq  : public PacketHeader { int nItemId; };
+struct PkgPlayerHandMakeItemReq  : public PacketHeader { unsigned int uUserId; int nItemId; };
 DECLARE_READWRITE(PkgPlayerHandMakeItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerHandMakeItemReq);
 struct PkgPlayerIdentifyItemReq  : public PacketHeader { unsigned int dwTag; };
@@ -768,40 +811,40 @@ struct PkgPlayerInteractiveDialogContentNot : public PacketHeader {
     std::vector<InteractiveDialogItem> xItems;
     std::vector<char>                 xData;
 };
-struct PkgPlayerKillSlaveReq     : public PacketHeader {};
+struct PkgPlayerKillSlaveReq     : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgPlayerKillSlaveReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerKillSlaveReq);
-struct PkgPlayerMergyCostItemReq : public PacketHeader { unsigned int dwDestTag; unsigned int dwSrcTag; };
+struct PkgPlayerMergyCostItemReq : public PacketHeader { unsigned int uUserId; unsigned int dwDestTag; unsigned int dwSrcTag; };
 DECLARE_READWRITE(PkgPlayerMergyCostItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerMergyCostItemReq);
-struct PkgPlayerMonsInfoReq      : public PacketHeader { unsigned int uMonsId; unsigned int uTargetId; };
+struct PkgPlayerMonsInfoReq      : public PacketHeader { unsigned int uUserId; unsigned int uMonsId; unsigned int uTargetId; };
 DECLARE_READWRITE(PkgPlayerMonsInfoReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerMonsInfoReq);
-struct PkgPlayerNetDelayReq      : public PacketHeader { unsigned int dwSendSequence; };
+struct PkgPlayerNetDelayReq      : public PacketHeader { unsigned int uUserId; unsigned int dwSendSequence; };
 DECLARE_READWRITE(PkgPlayerNetDelayReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerNetDelayReq);
-struct PkgPlayerOffBuyItemReq    : public PacketHeader { int nItemIndex; int nQueryID; };
+struct PkgPlayerOffBuyItemReq    : public PacketHeader { unsigned int uUserId; int nItemIndex; int nQueryID; unsigned int dwItemID; };
 DECLARE_READWRITE(PkgPlayerOffBuyItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOffBuyItemReq);
-struct PkgPlayerOffCheckSoldReq  : public PacketHeader {};
+struct PkgPlayerOffCheckSoldReq  : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgPlayerOffCheckSoldReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOffCheckSoldReq);
-struct PkgPlayerOffGetListReq    : public PacketHeader { int nPage; };
+struct PkgPlayerOffGetListReq    : public PacketHeader { unsigned int uUserId; int nPage; };
 DECLARE_READWRITE(PkgPlayerOffGetListReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOffGetListReq);
-struct PkgPlayerOffSellItemReq   : public PacketHeader { unsigned int dwTag; unsigned int dwMoney; unsigned int dwGold; };
+struct PkgPlayerOffSellItemReq   : public PacketHeader { unsigned int uUserId; unsigned int dwTag; unsigned int dwMoney; unsigned int dwGold; };
 DECLARE_READWRITE(PkgPlayerOffSellItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOffSellItemReq);
-struct PkgPlayerOffTakeBackReq   : public PacketHeader { int nItemIndex; };
+struct PkgPlayerOffTakeBackReq   : public PacketHeader { unsigned int uUserId; int nItemIndex; };
 DECLARE_READWRITE(PkgPlayerOffTakeBackReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOffTakeBackReq);
-struct PkgPlayerOpenPotentialReq : public PacketHeader { int nItemId; int nStoneId; };
+struct PkgPlayerOpenPotentialReq : public PacketHeader { unsigned int uUserId; int nItemId; int nStoneId; };
 DECLARE_READWRITE(PkgPlayerOpenPotentialReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOpenPotentialReq);
-struct PkgPlayerPickUpItemReq    : public PacketHeader { unsigned int uItemTag; };
+struct PkgPlayerPickUpItemReq    : public PacketHeader { unsigned int uUserId; unsigned int uItemTag; unsigned int dwTag; };
 DECLARE_READWRITE(PkgPlayerPickUpItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerPickUpItemReq);
-struct PkgPlayerPrivateChatReq   : public PacketHeader { std::string xPeerName; std::string xMsg; };
+struct PkgPlayerPrivateChatReq   : public PacketHeader { unsigned int uUserId; std::string xPeerName; std::string xMsg; };
 DECLARE_READWRITE(PkgPlayerPrivateChatReq);
 struct PkgPlayerQuitSelChrReq    : public PacketHeader {};
 DECLARE_READWRITE(PkgPlayerQuitSelChrReq);
@@ -809,45 +852,50 @@ BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerQuitSelChrReq);
 struct PkgPlayerRankListReq      : public PacketHeader { int nType; };
 DECLARE_READWRITE(PkgPlayerRankListReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerRankListReq);
-struct PkgPlayerReviveReq        : public PacketHeader { unsigned char bMode; };
+struct PkgPlayerReviveReq        : public PacketHeader { unsigned int uUserId; unsigned char bMode; };
 DECLARE_READWRITE(PkgPlayerReviveReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerReviveReq);
-struct PkgPlayerSayReq           : public PacketHeader { unsigned int uType; std::string xWords; };
+struct PkgPlayerSayReq           : public PacketHeader { unsigned int uUserId; unsigned int uType; std::string xName; std::string xWords; };
 DECLARE_READWRITE(PkgPlayerSayReq);
 struct PkgPlayerServerDelayAck   : public PacketHeader { int nSeq; unsigned int dwTimeStamp; };
 DECLARE_READWRITE(PkgPlayerServerDelayAck);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerServerDelayAck);
-struct PkgPlayerShopOpReq        : public PacketHeader { unsigned char bOp; unsigned int dwData; unsigned int uTargetId; unsigned char bNumber; };
+struct PkgPlayerShopOpReq        : public PacketHeader { unsigned int uUserId; unsigned char bOp; unsigned int dwData; unsigned int uTargetId; unsigned char bNumber; };
 DECLARE_READWRITE(PkgPlayerShopOpReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerShopOpReq);
-struct PkgPlayerSlaveStopReq     : public PacketHeader {};
+struct PkgPlayerSlaveStopReq     : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgPlayerSlaveStopReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerSlaveStopReq);
-struct PkgPlayerSmeltMaterialsReq : public PacketHeader { int nType; std::vector<int> xItemsTag; };
+struct PkgPlayerSmeltMaterialsReq : public PacketHeader { unsigned int uUserId; int nType; std::vector<int> xItemsTag; };
 DECLARE_READWRITE(PkgPlayerSmeltMaterialsReq);
-struct PkgPlayerSpeOperateReq    : public PacketHeader { unsigned int dwOp; unsigned int dwParam; };
+struct PkgPlayerSpeOperateReq    : public PacketHeader { unsigned int uUserId; unsigned int dwOp; unsigned int dwParam; };
 DECLARE_READWRITE(PkgPlayerSpeOperateReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerSpeOperateReq);
-struct PkgPlayerSplitItemReq     : public PacketHeader { unsigned int dwTag; char cSum; };
+struct PkgPlayerSplitItemReq     : public PacketHeader { unsigned int uUserId; unsigned int dwTag; char cSum; };
 DECLARE_READWRITE(PkgPlayerSplitItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerSplitItemReq);
 struct PkgPlayerSyncAssistReq    : public PacketHeader { unsigned char bNum; };
 DECLARE_READWRITE(PkgPlayerSyncAssistReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerSyncAssistReq);
+struct PkgPlayerSyncAttribNtf    : public PacketHeader { ItemAttrib stAttrib; };
+DECLARE_READWRITE(PkgPlayerSyncAttribNtf);
+BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerSyncAttribNtf);
 struct PkgPlayerUnbindItemReq    : public PacketHeader { unsigned int dwTag; };
 DECLARE_READWRITE(PkgPlayerUnbindItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerUnbindItemReq);
-struct PkgPlayerUndressItemReq   : public PacketHeader { unsigned char bPos; unsigned int dwTag; };
+struct PkgPlayerUndressItemReq   : public PacketHeader { unsigned int uUserId; unsigned char bPos; unsigned int dwTag; };
 DECLARE_READWRITE(PkgPlayerUndressItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerUndressItemReq);
-struct PkgPlayerUseItemReq       : public PacketHeader { int nItemIndex; unsigned int dwTag; };
+struct PkgPlayerUseItemReq       : public PacketHeader { unsigned int uUserId; int nItemIndex; unsigned int dwTag; };
 DECLARE_READWRITE(PkgPlayerUseItemReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerUseItemReq);
-struct PkgPlayerUserDataReq      : public PacketHeader {};
+struct PkgPlayerUserDataReq      : public PacketHeader { unsigned int uUserId; };
 DECLARE_READWRITE(PkgPlayerUserDataReq);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerUserDataReq);
-struct PkgPlayerWorldSayReq      : public PacketHeader { std::string xMsg; unsigned int uReserved; };
+struct PkgPlayerWorldSayReq      : public PacketHeader { unsigned int uUserId; std::string xMsg; unsigned int uReserved; };
 DECLARE_READWRITE(PkgPlayerWorldSayReq);
+struct PkgPlayerWorldSayNot      : public PacketHeader { std::string xMsg; };
+DECLARE_READWRITE(PkgPlayerWorldSayNot);
 
 // ---------------------------------------------------------------------------
 // GM command operation codes
@@ -922,7 +970,7 @@ enum CmdOpCode
 // ---------------------------------------------------------------------------
 // Quick message types
 // ---------------------------------------------------------------------------
-#define QUICKMSG_MULTI    1
+#define QUICKMSG_MULTI    100
 
 // ---------------------------------------------------------------------------
 // Sell item types
@@ -1064,6 +1112,7 @@ DECLARE_READWRITE(PkgPlayerSmeltMaterialsRsp);
 struct PkgPlayerOpenPotentialRsp : public PacketHeader
 {
     unsigned int uTargetId;
+    int          nCode;
 };
 DECLARE_READWRITE(PkgPlayerOpenPotentialRsp);
 BYTEBUFFER_STRUCT_OPERATOR(PkgPlayerOpenPotentialRsp);
@@ -1268,7 +1317,7 @@ struct PkgPlayerPlayAniAck : public PacketHeader
     unsigned int         uTargetId;
     unsigned int         uUserId;
     unsigned short       wAniID;
-    std::vector<unsigned int> xPos;
+    std::list<unsigned int> xPos;
 };
 DECLARE_READWRITE(PkgPlayerPlayAniAck);
 
@@ -1288,6 +1337,7 @@ struct PkgPlayerSetEffectAck : public PacketHeader
     unsigned int dwParam;
     bool         bShow;
     unsigned int dwTime;
+    int          bInt;
 };
 DECLARE_READWRITE(PkgPlayerSetEffectAck);
 
@@ -1309,6 +1359,27 @@ struct PkgSystemClearGroundItemNtf : public PacketHeader
 DECLARE_READWRITE(PkgSystemClearGroundItemNtf);
 
 // GS -> Client: extend attrib notification
+enum ExtendAttribType
+{
+    kExtendAttrib_Hair             = 1,
+    kExtendAttrib_Wing             = 2,
+    kExtendAttrib_ClothLook        = 3,
+    kExtendAttrib_WeaponLook       = 4,
+    kExtendAttrib_NameFrame        = 5,
+    kExtendAttrib_ChatFrame        = 6,
+    kExtendAttrib_ChatColor        = 7,
+    kExtendAttrib_SmeltOreLevel    = 8,
+    kExtendAttrib_SmeltOreExp      = 9,
+    kExtendAttrib_SmeltWoodLevel   = 10,
+    kExtendAttrib_SmeltWoodExp     = 11,
+    kExtendAttrib_SmeltClothLevel  = 12,
+    kExtendAttrib_SmeltClothExp    = 13,
+    kExtendAttrib_SmeltGemLevel    = 14,
+    kExtendAttrib_SmeltGemExp      = 15,
+    kExtendAttrib_MakeEquipLevel   = 16,
+    kExtendAttrib_MakeEquipExp     = 17,
+};
+
 struct ExtendAttribItem
 {
     unsigned int uType;

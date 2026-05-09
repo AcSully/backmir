@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMServer/BackMirServer13.vcxproj 引用，源码未直接 #include。
 //   为编译完整性提供模板实现，由 CommonModule 内部其他文件（如 ThreadRunner）使用。
 //

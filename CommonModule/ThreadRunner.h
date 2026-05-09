@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMServer/BackMirServer13.vcxproj 引用（早期 .vcproj 路径
 //   "..\CommonModule\CRCVerifyThread\ThreadRunner.h" 已平铺到顶层）。
 //   源码未直接 #include；提供 std::thread 的 RAII 包装，由 CommonModule

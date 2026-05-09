@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMClient/BackMir13.vcxproj 与 BMServer/BackMirServer13.vcxproj 引用，
 //   源码未直接 #include。提供 enum-class <-> 整数互转的常用模板，
 //   主要服务于 CommonModule 内部其他文件可能的需求。

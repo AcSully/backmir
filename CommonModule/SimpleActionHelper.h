@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/BroadcastQueue.cpp (GetCoordX/Y on PkgObjectActionWalkNot)
 //   BMClient/Common/GameRenderObject.cpp (GetCoordX/Y/Direction on
 //     PkgObjectActionTurnNot/WalkNot/RunNot/AttackNot/DeadNot/ExtNot)

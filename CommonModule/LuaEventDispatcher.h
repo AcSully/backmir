@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/WorldEventDispatcher.h: class WorldEventDispatcher : public LuaEventDispatcher
 //     ↑ 整个 WorldEventDispatcher.h 当前被 /* */ 注释包裹（dead code），
 //     说明 LuaEventDispatcher 这条事件分发链路在最终版本中已停用。

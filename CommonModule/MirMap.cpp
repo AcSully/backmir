@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 // 实现给出最小可用的 .map 解析骨架。具体的 14 字节/格布局依
 // 实际 .map 文件版本（不同私服改动较大）调整。
 #include "MirMap.h"

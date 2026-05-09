@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 // Linux 下整个 TU 为空，避免 windows.h 依赖。
 // Windows 下提供最小可用实现，与 BMClient/Common/SKnl3Helper.cpp 不冲突。
 #include "SKnl3Helper.h"

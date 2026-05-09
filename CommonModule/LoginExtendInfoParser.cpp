@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 // 实现使用 cJSON 解析；输入格式约定（来自 loginsvr.proto MPlayerLoginHumDataNtf.jsondata）：
 //   { "donate_money": int, "donate_left": int, "gift_ids": [int, int, ...] }
 // 历史格式可能不同；此处选 JSON 是为了和 cJSON 已就位的依赖匹配。

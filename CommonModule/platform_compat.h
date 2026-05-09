@@ -1,4 +1,4 @@
-// platform_compat.h - Linux cross-validation Windows type/func compat
+﻿// platform_compat.h - Linux cross-validation Windows type/func compat
 // Provides Linux stubs; does not affect Windows builds.
 #pragma once
 #ifndef _INC_PLATFORM_COMPAT_
@@ -8,6 +8,12 @@
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #include <stdio.h>
 #define snprintf _snprintf
+#endif
+
+#ifdef _WIN32
+#  ifndef STDCALL
+#    define STDCALL __stdcall
+#  endif
 #endif
 
 #ifndef _WIN32

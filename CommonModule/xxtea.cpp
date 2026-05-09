@@ -2,14 +2,20 @@
 // Full implementation available at: https://github.com/nicehash/xxtea
 #include "xxtea.h"
 #include <string.h>
+#if defined(_MSC_VER) && _MSC_VER < 1600
+typedef unsigned int   uint32_t;
+typedef unsigned char  uint8_t;
+#else
+#include <stdint.h>
+#endif
 
 #define DELTA 0x9e3779b9
 #define MX (((z>>5^y<<2) + (y>>3^z<<4)) ^ ((sum^y) + (key[(p&3)^e] ^ z)))
 
 static void xxtea_encrypt_uint32(uint32_t* v, int n, uint32_t const* key)
 {
-    uint32_t y, z, sum, *p, e;
-    int q;
+    uint32_t y, z, sum, e;
+    int p, q;
     if (n < 1) return;
     q = 6 + 52 / n;
     sum = 0;
@@ -17,10 +23,11 @@ static void xxtea_encrypt_uint32(uint32_t* v, int n, uint32_t const* key)
     do {
         sum += DELTA;
         e = (sum >> 2) & 3;
-        for (p = v; p < v + n - 1; p++) {
-            y = p[1];
-            z = p[0] += MX;
+        for (p = 0; p < n - 1; p++) {
+            y = v[p + 1];
+            z = v[p] += MX;
         }
+        p = n - 1;
         y = v[0];
         z = v[n - 1] += MX;
     } while (--q);
@@ -28,18 +35,19 @@ static void xxtea_encrypt_uint32(uint32_t* v, int n, uint32_t const* key)
 
 static void xxtea_decrypt_uint32(uint32_t* v, int n, uint32_t const* key)
 {
-    uint32_t y, z, sum, *p, e;
-    int q;
+    uint32_t y, z, sum, e;
+    int p, q;
     if (n < 1) return;
     q = 6 + 52 / n;
     sum = q * DELTA;
     y = v[0];
     do {
         e = (sum >> 2) & 3;
-        for (p = v + n - 1; p > v; p--) {
-            z = p[-1];
-            y = p[0] -= MX;
+        for (p = n - 1; p > 0; p--) {
+            z = v[p - 1];
+            y = v[p] -= MX;
         }
+        p = 0;
         z = v[n - 1];
         y = v[0] -= MX;
         sum -= DELTA;

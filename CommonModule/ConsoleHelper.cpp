@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 #include "ConsoleHelper.h"
 #include "platform_compat.h"
 #ifdef _WIN32

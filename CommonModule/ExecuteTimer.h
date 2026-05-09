@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/GameScene.cpp (ExecuteTimer xSceneTime; xSceneTime.Start(); xSceneTime.GetExecuteTime())
 //   BMServer/GameWorld/HeroObject.cpp (ExecuteTimer xExeTimer; xExeTimer.Start(); xExeTimer.GetExecuteTime())
 //

@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/BackMir/BackMir.cpp (LoadSetting, SaveToFile, GetIntValue, WriteIntValue)
 //   BMServer/GameWorld/GameWorld.cpp (GetInstance, LoadSetting, GetIntValue)
 //   BMServer/CMainServer/CMainServer.cpp (GetInstance, Clear, GetIntValue)
@@ -32,10 +32,10 @@ public:
     // 写入整型值
     void WriteIntValue(const char* _pszKey, int _nValue);
 
-private:
     SettingLoader();
     ~SettingLoader();
 
+private:
     struct Impl;
     Impl* m_pImpl;
 

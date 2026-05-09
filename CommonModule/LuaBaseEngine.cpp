@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06
+﻿// [reconstructed] 重建于 2026-05-06
 #include "LuaBaseEngine.h"
 #include "platform_compat.h"
 #include <cstdio>

@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/BackMir/BackMir.h (GAME_MODE, GM_*, SCENE_*, PAGE_*, TIMER_*, WM_SOCKMSG)
 //   BMClient/BackMir/BMPreConnWnd.cpp (TIMER_*, GM_*)
 //   BMServer/CMainServer/CMainServer.cpp (GM_*, WM_*)
@@ -113,12 +113,53 @@ typedef PlayerItemType PLAYER_ITEM_TYPE;
 // ---------------------------------------------------------------------------
 enum ItemType
 {
-    ITEM_NO   = 0,   // 空槽
-    ITEM_COST = 1,   // 消耗品
-    ITEM_EQUIP = 2,  // 装备
-    ITEM_QUEST = 3,  // 任务物品
-    ITEM_BALE  = 4,  // 礼包
+    ITEM_NO       = 0,   // 空槽
+    ITEM_COST     = 1,   // 消耗品
+    ITEM_EQUIP    = 2,   // 通用装备占位
+    ITEM_QUEST    = 3,   // 任务物品
+    ITEM_BALE     = 4,   // 礼包
+    ITEM_WEAPON   = 5,   // 武器
+    ITEM_CLOTH    = 6,   // 衣服
+    ITEM_HELMET   = 7,   // 头盔
+    ITEM_NECKLACE = 8,   // 项链
+    ITEM_BRACELAT = 9,   // 手镯
+    ITEM_RING     = 10,  // 戒指
+    ITEM_SHOE     = 11,  // 鞋
+    ITEM_BELT     = 12,  // 腰带
+    ITEM_CHARM    = 13,  // 护身符
+    ITEM_GEM      = 14,  // 宝石
+    ITEM_MEDAL    = 15,  // 勋章
+    ITEM_BOOK     = 16,  // 技能书
+    ITEM_OTHER    = 17,  // 其它
 };
+
+// Get item type description name
+inline const char* GetItemDescribeName(const ItemAttrib* pItem)
+{
+    if (!pItem) return "Unknown";
+    switch (pItem->type)
+    {
+    case ITEM_NO:       return "Empty";
+    case ITEM_COST:     return "Consumable";
+    case ITEM_EQUIP:    return "Equipment";
+    case ITEM_QUEST:    return "Quest";
+    case ITEM_BALE:     return "Gift";
+    case ITEM_WEAPON:   return "Weapon";
+    case ITEM_CLOTH:    return "Armor";
+    case ITEM_HELMET:   return "Helmet";
+    case ITEM_NECKLACE: return "Necklace";
+    case ITEM_BRACELAT: return "Bracelet";
+    case ITEM_RING:     return "Ring";
+    case ITEM_SHOE:     return "Shoe";
+    case ITEM_BELT:     return "Belt";
+    case ITEM_CHARM:    return "Charm";
+    case ITEM_GEM:      return "Gem";
+    case ITEM_MEDAL:    return "Medal";
+    case ITEM_BOOK:     return "Book";
+    case ITEM_OTHER:    return "Other";
+    default:            return "Unknown";
+    }
+}
 
 // ---------------------------------------------------------------------------
 // 装备需求类型 (ItemAttrib::reqType) — defined in ObjectData.h as macros

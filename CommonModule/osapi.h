@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/common/shared.h
 //   BMServer/GameWorld/FreeListManager.h
 //   BMServer/GameWorld/DBThread.h

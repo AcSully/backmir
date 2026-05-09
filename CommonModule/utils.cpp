@@ -1,8 +1,11 @@
-// [reconstructed] �ؽ��� 2026-05-06
+﻿// [reconstructed] �ؽ��� 2026-05-06
 #include "utils.h"
 #include <cctype>
 #include <cstdio>
 #include <sstream>
+#if defined(_MSC_VER) && _MSC_VER < 1900
+#  define snprintf _snprintf
+#endif
 
 namespace utils
 {

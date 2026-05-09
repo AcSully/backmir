@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 vcxproj 引用，源码未直接 #include。
 //   按命名推测：注入若干 C 函数到 lua VM，扩展标准库（如 print 重定向到 glog、
 //   字符串处理工具、定时器等）。

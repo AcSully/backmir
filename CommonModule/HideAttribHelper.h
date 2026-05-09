@@ -39,4 +39,23 @@ public:
     static void SetActiveAttribValue(unsigned int& _uCode, int _i, int _value);
 };
 
+// Get string name for hide attribute type
+inline const char* GetHideAttribString(HideAttribType _eType)
+{
+    switch(_eType)
+    {
+    case HideAttrib_AC:         return "AC";
+    case HideAttrib_MAC:        return "MAC";
+    case HideAttrib_DC:         return "DC";
+    case HideAttrib_MC:         return "MC";
+    case HideAttrib_SC:         return "SC";
+    case HideAttrib_MagicDrop:  return "MagicDrop";
+    case HideAttrib_MainAttrib: return "MainAttrib";
+    case HideAttrib_Lucky:      return "Lucky";
+    case HideAttrib_DcHide:     return "DcHide";
+    case HideAttrib_MagicHide:  return "MagicHide";
+    default:                    return "Unknown";
+    }
+}
+
 #endif // _INC_HIDEATTRIBHELPER_

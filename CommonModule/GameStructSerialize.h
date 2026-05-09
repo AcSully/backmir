@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMServer/BackMirServer13.vcxproj 与 BMClient/BackMir13.vcxproj 引用，
 //   未在 .cpp 中找到具体调用——推测由 CommonModule 内的 GamePacket / SaveFile
 //   等使用，或仅是预留。

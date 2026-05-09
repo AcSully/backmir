@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   仅 BMServer/BackMirServer13.vcxproj 引用 ..\CommonModule\MirMap.{cpp,h}
 //   BMClient 自有 BMClient/Common/MirMap.{cpp,h}（包含渲染相关 API），
 //   两者不同：BMServer 端只需读取 .map 二进制做寻路/碰撞检测，

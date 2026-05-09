@@ -1,7 +1,7 @@
-// [reconstructed] ÖØ½¨ÓÚ 2026-05-06 ¡ª¡ª À´Ô´µ÷ÓÃµã£º
+// [reconstructed] ï¿½Ø½ï¿½ï¿½ï¿½ 2026-05-06 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ãµã£º
 //   BMServer/GameWorld/HeroObject.cpp:2847+ (std::list<const ItemExtraAttribList*>)
 //   BMServer/GameWorld/GameDbBuffer.{h,cpp} (std::map<int, ItemExtraAttribList*>)
-//   BMClient/GameScene/GameInfoManager.{h,cpp} (Í¬ÉÏ)
+//   BMClient/GameScene/GameInfoManager.{h,cpp} (Í¬ï¿½ï¿½)
 //   BMClient/GameScene/GamePlayer.cpp (std::list<const ItemExtraAttribList*>)
 //   BMClient/GameDialog/GameDisplayDlg.cpp:1475 (ItemExtraAttribItem extraAttrib;
 //                                                 .nAttribID, .nAttribValue)
@@ -9,20 +9,20 @@
 //   BMClient/GameDialog/GameOtherHumDlg.cpp:1000, 1802
 //   BMClient/GameDialog/GameDlgBase.h:562 (const ItemExtraAttribList*)
 //
-// µ÷ÓÃµã×Ö¶ÎÒ»ÖÂ£º
+// ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ö¶ï¿½Ò»ï¿½Â£ï¿½
 //   ItemExtraAttribItem.nAttribID  -> int (È¡Öµ EAID_AC/EAID_MAC/EAID_DC/EAID_MC/EAID_SC/...)
-//   ItemExtraAttribItem.nAttribValue -> int (HIWORD/LOWORD ²ð·Ö¸ßµÍÎ»)
+//   ItemExtraAttribItem.nAttribValue -> int (HIWORD/LOWORD ï¿½ï¿½Ö¸ßµï¿½Î»)
 //
-// EAID_* Ã¶¾ÙÃû³ÆÔÚ GameDialog/GameDisplayDlg.cpp:1491-1495 ³öÏÖ£¬
-// ÍêÕû¼¯ºÏÐè½øÒ»²½´Ó LuaDataLoader::LoadSuitAttrib ¶ÁÈ¡µÄ lua ±í·´ÍÆ£»
-// ´Ë´¦ÏÈÁÐ³ö¿É¼ûµÄ³ÉÔ±£¬Î´À´·¢ÏÖÐÂÖµÊ±×·¼Ó¡£
+// EAID_* Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameDialog/GameDisplayDlg.cpp:1491-1495 ï¿½ï¿½ï¿½Ö£ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ LuaDataLoader::LoadSuitAttrib ï¿½ï¿½È¡ï¿½ï¿½ lua ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½
+// ï¿½Ë´ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½É¼ï¿½ï¿½Ä³ï¿½Ô±ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÊ±×·ï¿½Ó¡ï¿½
 #pragma once
 #ifndef _INC_ITEM_EXTRA_SUIT_DEF_
 #define _INC_ITEM_EXTRA_SUIT_DEF_
 
 #include <vector>
 
-// ×°±¸¶îÍâÊôÐÔ ID£¨ÍêÕû¼¯ºÏÀ´×Ô StateController.h µ÷ÓÃµã£©
+// ×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ StateController.h ï¿½ï¿½ï¿½Ãµã£©
 enum ExtraAttribID
 {
     EAID_NONE         = 0,
@@ -62,19 +62,20 @@ enum ExtraAttribID
     EAID_STONERECOVER = 34,
     EAID_MOUNTAIN     = 35,
     EAID_SUMMONWHITETIGER = 36,
+    EAID_ADDTIGER     = EAID_SUMMONWHITETIGER,  // alias
 };
 
-// µ¥Ìõ¶îÍâÊôÐÔ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 struct ItemExtraAttribItem
 {
-    int nAttribID;     // ExtraAttribID£¨»ò¸ü¹ã·ºµÄ lua-defined ID£©
-    int nAttribValue;  // ÊýÖµ£»²¿·Ö ID ÓÃ HIWORD/LOWORD ±àÂëÉÏÏÂ½ç
+    int nAttribID;     // ExtraAttribIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·ºï¿½ï¿½ lua-defined IDï¿½ï¿½
+    int nAttribValue;  // ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID ï¿½ï¿½ HIWORD/LOWORD ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 };
 
 #define MAX_EXTRAATTIRB     4   // max activation tiers per suit
 #define MAX_SUIT_EQUIP_ID   10  // max equip slots per suit
 
-// Ò»Ì××°±¸µÄ¶îÍâÊôÐÔ¼¯ºÏ£¨°´Ì××° ID Ë÷Òý£©
+// Ò»ï¿½ï¿½×°ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½×° ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 struct ItemExtraAttribList
 {
     int  nSuitID;                           // suit set ID (matches ItemAttrib::atkPalsy)
@@ -84,6 +85,7 @@ struct ItemExtraAttribList
     int  nActiveAttribSum[MAX_EXTRAATTIRB]; // how many stExtraAttrib entries are active at each tier
     ItemExtraAttribItem stExtraAttrib[MAX_EXTRAATTIRB * 8]; // flat attrib array
     std::vector<ItemExtraAttribItem> items; // legacy alias (same data, kept for client compat)
+    int  nSuitShowType;                     // 0 = normal suit, 1 = special display
 };
 
 #endif // _INC_ITEM_EXTRA_SUIT_DEF_

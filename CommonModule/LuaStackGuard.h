@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/DBThread.cpp (LuaStackGuard guard(L))
 //
 // RAII 保护 Lua 栈：构造时记录栈顶，析构时恢复，防止函数中途返回导致栈泄漏。

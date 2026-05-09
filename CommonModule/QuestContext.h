@@ -1,4 +1,4 @@
-// [reconstructed] ÖØ½¨ÓÚ 2026-05-06 ¡ª¡ª À´Ô´µ÷ÓÃµã£º
+// [reconstructed] ï¿½Ø½ï¿½ï¿½ï¿½ 2026-05-06 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ãµã£º
 //   BMServer/tolua/QuestContext.pkg (class interface)
 //   BMServer/tolua/luaServer.cpp:1355 (HeroObject::GetQuest() returns QuestContext*)
 //   luaServer.cpp:6727-6960 (IsQuestComplete/SetQuestComplete/IsQuestAccept/
@@ -29,6 +29,9 @@ public:
 
     int  GetQuestCounter(int _questid) const;
     void SetQuestCounter(int _questid, int _counter);
+
+    // Clear all quest data
+    void Clear() { m_xQuests.clear(); }
 
 private:
     struct QuestEntry

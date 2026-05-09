@@ -1,4 +1,4 @@
-// [reconstructed] �ؽ��� 2026-05-06 ���� ��Դ���õ㣺
+﻿// [reconstructed] �ؽ��� 2026-05-06 ���� ��Դ���õ㣺
 //   BMServer/GameWorld/GameDbBuffer.cpp (ItemAttrib fields, ItemFullAttrib, MonsFullAttrib,
 //     HeroBaseInfo, MonsDropItemInfo, pszDefault* names, EXTRA_MASK_ENCRYPT)
 //   BMServer/GameWorld/ObjectValid.h (ItemAttrib field names: id/name/lucky/curse/hide/
@@ -28,6 +28,9 @@
 #define MAX_LEVEL 200
 #endif
 extern int g_nWanLiTable[MAX_LEVEL][3];
+extern int g_nHPTable[MAX_LEVEL][3];
+extern int g_nMPTable[MAX_LEVEL][3];
+extern int g_nExprTable[MAX_LEVEL];
 
 // -----------------------------------------------------------------------
 // ItemAttrib �� core item/monster attribute record (35 columns in SQLite)
@@ -164,10 +167,7 @@ enum MAGICEFFECT_TYPE
 
 #define MAGICEFFECT_TOTAL 4
 
-// Client-side magic effect table size (same as server MEFF_USERTOTAL)
-#ifndef MEFF_USERTOTAL
-#define MEFF_USERTOTAL 200
-#endif
+// Client-side magic effect table size - defined as enum in MagicEffectID.h
 
 // Equipment requirement error codes
 #ifndef REQ_ERR_LEVEL
@@ -223,9 +223,12 @@ struct GroundItem
     int         nPosY;
     unsigned int dwTag;
     int         nOwner;     // hero uid that may pick it up first
+    unsigned short wPosX;   // alias used by client renderer
+    unsigned short wPosY;   // alias used by client renderer
+    bool        bVisible;   // client-side visibility flag
 
-    void SetPosX(int _x) { nPosX = _x; }
-    void SetPosY(int _y) { nPosY = _y; }
+    void SetPosX(int _x) { nPosX = _x; wPosX = (unsigned short)_x; }
+    void SetPosY(int _y) { nPosY = _y; wPosY = (unsigned short)_y; }
     ItemAttrib* GetItemAttrib() { return &stAttrib; }
 };
 
@@ -288,6 +291,7 @@ struct ItemFullAttrib
     int         nGrade;         // item grade/tier (used by GetItemGradeInFullAttrib)
     int         nSuitID;        // suit set ID (0 = none)
     char        szSuitChName[32];
+    std::string strDesc;        // item description text (loaded from lua config)
 };
 
 // -----------------------------------------------------------------------
@@ -360,6 +364,7 @@ struct HeroHeader
     unsigned int uLevel;
     unsigned int uOp;       // operation flags
 };
+BYTEBUFFER_STRUCT_OPERATOR(HeroHeader);
 
 // -----------------------------------------------------------------------
 // ExtendHeroAttrib �� hero cosmetic / life-skill extended attributes

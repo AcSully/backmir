@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMClient/GameDialog/ScriptWnd.h (class WndScriptEngine : public LuaBaseEngine, public LuaBaseExecutor)
 //   BMClient/GameDialog/ScriptWnd.cpp (AddCallItem, m_xBaseCallList, LuaBaseCallItem, nCallType, xCallFuncName, dwLastCallTime)
 //

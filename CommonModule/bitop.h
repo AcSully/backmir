@@ -1,4 +1,4 @@
-// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
+﻿// [reconstructed] 重建于 2026-05-06 —— 来源调用点：
 //   BMServer/GameWorld/LuaItemHelper.cpp
 //
 // 位操作工具宏。调用点仅 include 此头文件，未发现具体宏调用，
