@@ -1,6 +1,6 @@
 [submodule "BMClient"]
     path = BMClient
-    url = http://192.168.156.155:3000/niuke/BMClient.git
+    url = git@github.com:AcSully/BMClient.git
 [submodule "BMServer"]
     path = BMServer
-    url = http://192.168.156.155:3000/niuke/BMServer.git
+    url = git@github.com:AcSully/BMServer.git
