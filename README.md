@@ -158,14 +158,14 @@ libcurl.dll     # libcurl（动态链接时）
 
 | 仓库 | 地址 |
 |------|------|
-| 主仓库 | http://192.168.156.155:3000/niuke/backmir |
-| 客户端（BMClient） | http://192.168.156.155:3000/niuke/BMClient |
-| 服务端（BMServer） | http://192.168.156.155:3000/niuke/BMServer |
+| 主仓库 | https://github.com/AcSully/backmir |
+| 客户端（BMClient） | https://github.com/AcSully/BMClient |
+| 服务端（BMServer） | https://github.com/AcSully/BMServer |
 
 BMClient 和 BMServer 以 git submodule 形式引入主仓库。克隆时需加 `--recurse-submodules`：
 
 ```bash
-git clone --recurse-submodules http://192.168.156.155:3000/niuke/backmir.git
+git clone --recurse-submodules https://github.com/AcSully/backmir.git
 ```
 
 ## 许可
